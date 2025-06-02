@@ -6,7 +6,7 @@ from flask import Flask, render_template, request
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 app = Flask(__name__)
-
+analyzer = SentimentIntensityAnalyzer()
 model = None
 tokenizer = None
 
@@ -24,23 +24,35 @@ with app.app_context():
     load_tokenizer()
     load_keras_model()
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
-        sid = SentimentIntensityAnalyzer()
-        text = request.form.get("user_text")
-        sentiment = sid.polarity_scores(text)
-        sentiment['custom model positive'] = sentiment_analysis(text)
-
-        return render_template("form.html", sentiment=sentiment)
-    else:
-        return render_template("form.html")           
-
 def sentiment_analysis(input):
     user_sequences = tokenizer.texts_to_sequences([input])
     user_sequences_matrix = sequence.pad_sequences(user_sequences, maxlen=1225)
     prediction = model.predict(user_sequences_matrix)
     return round(float(prediction[0][0]),2)
     
+#@app.route("/", methods=["GET", "POST"])
+#def index():
+#    if request.method == "POST":
+#        sid = SentimentIntensityAnalyzer()
+#        text = request.form.get("user_text")
+#        sentiment = sid.polarity_scores(text)
+#        sentiment['custom model positive'] = sentiment_analysis(text)
+
+#        return render_template("form.html", sentiment=sentiment)
+#    else:
+#        return render_template("form.html")           
+
+# try something new
+@app.route("/", methods=["GET", "POST"])
+def index():
+    sentiment = dict()
+    text = ""
+    if request.method == "POST":
+        text = request.form.get("user_text")
+        sentiment = analyzer.polarity_scores(text) 
+        sentiment["custom model positive"] = sentiment_analysis(text)
+
+    return render_template('form.html', sentiment=sentiment, user_text=text)
+
 if __name__ == "__main__":
    app.run()
