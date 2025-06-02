@@ -41,7 +41,7 @@ def sentiment_analysis(input):
 #        return render_template("form.html", sentiment=sentiment)
 #    else:
 #        return render_template("form.html")           
-
+ 
 # try something new
 @app.route("/", methods=["GET", "POST"])
 def index():
