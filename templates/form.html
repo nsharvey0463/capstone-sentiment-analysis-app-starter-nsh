@@ -1,67 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sentiment Analysis</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f0f0f0;
-        }
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
 
-        .container {
-            background-color: #b2d5f8;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+  <body>
+    <h1>Sentiment Analysis</h1>
 
-        textarea {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: 1px solid #230384;
-            border-radius: 4px;
-            box-sizing: border-box;
-            resize: vertical; 
-            min-height: 200px; /* Make the box bigger */
-            font-size: 16px;
-        }
+    <form action="/" method="POST">
+      <textarea
+        name="user_text"
+        rows="6"
+        placeholder="Enter your text here..."
+      ></textarea
+      ><br />
+      <button type="submit">Analyze Sentiment</button>
+    </form>
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Sentiment Analysis</h1>
-        <form method="POST">
-            <textarea name="user_text" placeholder="Enter your text here..."></textarea>
-            <button type="submit">Analyze</button>
-        </form>
-        {% if sentiment %}
-            <p>Positive: {{ sentiment['pos'] * 100 }} % </p>
-            <p>Neutral: {{ sentiment['neu'] * 100 }} % </p>
-            <p>Negative: {{ sentiment['neg'] * 100 }} % </p>
-            <p>Compound: {{ sentiment['compound'] * 100 }} % </p>
-            <p>Custom: {{ sentiment['custom model positive'] * 100 }} % </p>
-        {% endif %}    
+    {% if sentiment %}
+    <div class="results">
+      <h2>Sentiment Analysis Results</h2>
+      <div class="chart-container">
+        <canvas id="sentimentBar" width="400" height="300"></canvas>
+        <canvas id="compoundChart" width="400" height="300"></canvas>
+      </div>
     </div>
-</body>
+
+    <script src="{{ url_for('static', filename='charts.js') }}"></script>
+    <script>
+      const sentimentData = {{ sentiment | tojson }};
+      renderCharts(sentimentData);
+    </script>
+    {% endif %}
+  </body>
 </html>
