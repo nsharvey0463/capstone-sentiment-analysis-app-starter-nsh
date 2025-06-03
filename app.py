@@ -32,7 +32,7 @@ def sentiment_analysis(input):
     
 @app.route("/", methods=["GET", "POST"])
 def index():
-    sentiment = dict()
+    sentiment = None
     text = ""
     if request.method == "POST":
         text = request.form["user_text"]
