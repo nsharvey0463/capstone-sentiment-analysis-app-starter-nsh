@@ -1,4 +1,3 @@
-gevent
 Flask==2.2.5
 Flask-SQLAlchemy==2.5.1
 numpy==1.23.5
