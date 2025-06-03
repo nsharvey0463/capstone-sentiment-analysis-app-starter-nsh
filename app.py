@@ -45,14 +45,14 @@ def sentiment_analysis(input):
 # try something new
 @app.route("/", methods=["GET", "POST"])
 def index():
-    sentiment = dict()
-    text = ""
+    sentiment = none
+    
     if request.method == "POST":
         text = request.form.get("user_text")
         sentiment = analyzer.polarity_scores(text) 
         sentiment["custom model positive"] = sentiment_analysis(text)
 
-    return render_template('form.html', sentiment=sentiment, user_text=text)
+    return render_template('form.html', sentiment=sentiment)
 
 if __name__ == "__main__":
    app.run()
