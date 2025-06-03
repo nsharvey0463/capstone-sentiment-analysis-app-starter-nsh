@@ -35,6 +35,7 @@ def index():
     sentiment=None
     text=None
     if request.method == "POST":
+        text = request.form["user_text"]
         sentiment = si_analyzer.polarity_scores(text)
         sentiment['custom model positive'] = sentiment_analysis(text)
 
