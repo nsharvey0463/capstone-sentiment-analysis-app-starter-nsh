@@ -32,9 +32,6 @@ def sentiment_analysis(input):
     
 @app.route("/", methods=["GET", "POST"])
 def index():
-    sentiment = None
-    text = None
-
     if request.method == "POST":
         sentiment = si_analyzer.polarity_scores(text)
         sentiment['custom model positive'] = sentiment_analysis(text)
