@@ -1,22 +1,158 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Sentiment Analysis</title>
-    </head>
-    <body>
-        <form method="POST">
-            <textarea name="user_text" rows="5"></textarea>
-            <input type="submit" value="Analyze Text">
-        </form>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(44, 62, 80, 0.18), 0 1.5px 4.5px rgba(44, 62, 80, 0.10);
+            padding: 2.5rem 2rem 2rem 2rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #5a4e99;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.7rem;
+        }
+        textarea {
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-family: inherit;
+            min-height: 90px;
+            transition: border 0.2s;
+            resize: vertical;
+        }
+        textarea:focus {
+            border-color: #7c6ee3;
+            outline: none;
+        }
+        button[type="submit"] {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 4px rgba(44, 62, 80, 0.10);
+        }
+        button[type="submit"]:hover {
+            background: linear-gradient(90deg, #5a4e99 0%, #667eea 100%);
+            box-shadow: 0 3px 12px rgba(44, 62, 80, 0.16);
+        }
+        .sentiment-results {
+            margin-top: 1rem;
+            text-align: left;
+            background: #f8f7fc;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 1px 4px rgba(120, 120, 180, 0.08);
+        }
+        .sentiment-results p {
+            font-size: 1.07rem;
+            margin: 0.5rem 0;
+        }
+        .sentiment-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 0.5rem;
+        }
+        .bar {
+            height: 10px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            flex: 1;
+            overflow: hidden;
+            margin-right: 0.3rem;
+        }
+        .bar-inner {
+            height: 100%;
+            border-radius: 5px;
+        }
+        .bar-pos   { background: linear-gradient(90deg, #4fd69c, #43e97b); }
+        .bar-neu   { background: linear-gradient(90deg, #8fd3f4, #a6c1ee); }
+        .bar-neg   { background: linear-gradient(90deg, #ff758c, #ff7eb3); }
+        .bar-comp  { background: linear-gradient(90deg, #f7971e, #ffd200); }
+        .bar-custom{ background: linear-gradient(90deg, #9d50bb, #6e48aa); }
+        @media (max-width: 450px) {
+            .container { padding: 1.5rem 0.6rem; }
+        }
+    </style>
+</head>
 
+<body>
+    <div class="container">
+        <h1>Sentiment Analysis</h1>
+        <form method="POST">
+            <textarea name="user_text" placeholder="Enter your text here..." required></textarea>
+            <button type="submit">Analyze</button>
+        </form>
         {% if sentiment %}
-          <div>
-              <h2>Results"</h2>
-              <p>Positive: {{ sentiment['pos'] * 100 }} % </p>
-              <p>Neutral: {{ sentiment['neu'] * 100 }} % </p>
-              <p>Negative: {{ sentiment['neg'] * 100 }} % </p>
-              <p>Compound: {{ sentiment['compound'] * 100 }} % </p>
-              <p>Custom: {{ sentiment['custom model positive'] * 100 }} % </p>
-          </div>
-    </body>
+            <div class="sentiment-results">
+                <div class="sentiment-bar">
+                    <span>Positive</span>
+                    <div class="bar">
+                        <div class="bar-inner bar-pos" style="width: {{ sentiment['pos'] * 100 }}%"></div>
+                    </div>
+                    <span>{{ (sentiment['pos'] * 100)|round(1) }}%</span>
+                </div>
+                <div class="sentiment-bar">
+                    <span>Neutral</span>
+                    <div class="bar">
+                        <div class="bar-inner bar-neu" style="width: {{ sentiment['neu'] * 100 }}%"></div>
+                    </div>
+                    <span>{{ (sentiment['neu'] * 100)|round(1) }}%</span>
+                </div>
+                <div class="sentiment-bar">
+                    <span>Negative</span>
+                    <div class="bar">
+                        <div class="bar-inner bar-neg" style="width: {{ sentiment['neg'] * 100 }}%"></div>
+                    </div>
+                    <span>{{ (sentiment['neg'] * 100)|round(1) }}%</span>
+                </div>
+                <div class="sentiment-bar">
+                    <span>Compound</span>
+                    <div class="bar">
+                        <div class="bar-inner bar-comp" style="width: {{ sentiment['compound'] * 100 }}%"></div>
+                    </div>
+                    <span>{{ (sentiment['compound'] * 100)|round(1) }}%</span>
+                </div>
+                <div class="sentiment-bar">
+                    <span>Custom</span>
+                    <div class="bar">
+                        <div class="bar-inner bar-custom" style="width: {{ sentiment['custom model positive'] * 100 }}%"></div>
+                    </div>
+                    <span>{{ (sentiment['custom model positive'] * 100)|round(1) }}%</span>
+                </div>
+            </div>
+        {% endif %}    
+    </div>
+</body>
 </html>
