@@ -74,9 +74,10 @@
             padding: 1rem;
             box-shadow: 0 1px 4px rgba(120, 120, 180, 0.08);
         }
-        .sentiment-results p {
-            font-size: 1.07rem;
-            margin: 0.5rem 0;
+        .sentiment-results h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            color: #5a4e99;
         }
         .sentiment-bar {
             display: flex;
@@ -114,16 +115,38 @@
             <textarea name="user_text" placeholder="Enter your text here..." required></textarea>
             <button type="submit">Analyze</button>
         </form>
-    {% if sentiment %}
-        <div>
+        {% if sentiment %}
+        <div class="sentiment-results">
             <h3>Sentiment Results:</h3>
-            <ul>
-            {% for key, value in sentiment.items() %}
-                <li>{{ key }}: {{ value }}</li>
-            {% endfor %}
-            </ul>
+            <div class="sentiment-bar">
+                <span>Positive</span>
+                <div class="bar"><div class="bar-inner bar-pos" style="width:{{ sentiment['pos'] * 100 }}%"></div></div>
+                <span>{{ (sentiment['pos'] * 100) | round(1) }}%</span>
+            </div>
+            <div class="sentiment-bar">
+                <span>Neutral</span>
+                <div class="bar"><div class="bar-inner bar-neu" style="width:{{ sentiment['neu'] * 100 }}%"></div></div>
+                <span>{{ (sentiment['neu'] * 100) | round(1) }}%</span>
+            </div>
+            <div class="sentiment-bar">
+                <span>Negative</span>
+                <div class="bar"><div class="bar-inner bar-neg" style="width:{{ sentiment['neg'] * 100 }}%"></div></div>
+                <span>{{ (sentiment['neg'] * 100) | round(1) }}%</span>
+            </div>
+            <div class="sentiment-bar">
+                <span>Compound</span>
+                <div class="bar"><div class="bar-inner bar-comp" style="width:{{ ((sentiment['compound'] + 1) / 2) * 100 }}%"></div></div>
+                <span>{{ sentiment['compound'] }}</span>
+            </div>
+            {% if sentiment['custom model positive'] is not none %}
+            <div class="sentiment-bar">
+                <span>Custom Model Positive</span>
+                <div class="bar"><div class="bar-inner bar-custom" style="width:{{ sentiment['custom model positive'] * 100 }}%"></div></div>
+                <span>{{ (sentiment['custom model positive'] * 100) | round(1) }}%</span>
+            </div>
+            {% endif %}
         </div>
-    {% endif %}
+        {% endif %}
     </div>
 </body>
 </html>
