@@ -39,6 +39,7 @@ def index():
         sentiment = si_analyzer.polarity_scores(text)
         sentiment['custom model positive'] = sentiment_analysis(text)
         print("Sentiment keys:", sentiment.keys())
+        print("Full sentiment dict:", sentiment)
     
     return render_template("form.html", sentiment=sentiment)
 
