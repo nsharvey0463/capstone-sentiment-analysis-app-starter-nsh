@@ -6,7 +6,7 @@ from flask import Flask, render_template, request
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 app = Flask(__name__)
-si_analyzer = SentimentIntensityAnalyzer()
+analyzer = SentimentIntensityAnalyzer()
 model = None
 tokenizer = None
 
@@ -34,12 +34,15 @@ def sentiment_analysis(input):
 def index():
     sentiment = None
     text = ""
+    
     if request.method == "POST":
         text = request.form["user_text"]
-        sentiment = si_analyzer.polarity_scores(text)
-        sentiment['custom model positive'] = sentiment_analysis(text)
+        sentiment = analyzer.polarity_scores(text)
+        vader_sentiment['custom model positive'] = sentiment_analysis(text)
+        sentiment = vader_sentiment
+        sentiment["custom model positive"] = sentiment_analysis(text)
     
-    return render_template("form.html")
+    return render_template("form.html", sentimet=sentimet)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
