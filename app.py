@@ -20,9 +20,9 @@ def load_tokenizer():
         tokenizer = pickle.load(handle)
 
 # Load the model and tokenizer before the first request using app.before_first_request
-with app.app_context():
-    load_tokenizer()
-    load_keras_model()
+#with app.app_context():
+#    load_tokenizer()
+#    load_keras_model()
 
 def sentiment_analysis(input):
     user_sequences = tokenizer.texts_to_sequences([input])
@@ -36,6 +36,8 @@ def index():
     text = ""
     
     if request.method == "POST":
+        load_tokenizer()
+        load_keras_model()
         text = request.form["user_text"]
         sentiment = analyzer.polarity_scores(text)
         vader_sentiment['custom model positive'] = sentiment_analysis(text)
