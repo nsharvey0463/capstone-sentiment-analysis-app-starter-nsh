@@ -40,9 +40,7 @@ def index():
         load_keras_model()
         text = request.form["user_text"]
         sentiment = analyzer.polarity_scores(text)
-        vader_sentiment['custom model positive'] = sentiment_analysis(text)
-        sentiment = vader_sentiment
-        sentiment["custom model positive"] = sentiment_analysis(text)
+        sentiment['custom model positive'] = sentiment_analysis(text)
         print("sentiment is: " sentiment)
         
     return render_template("form.html", sentiment=sentiment)
