@@ -13,13 +13,13 @@
             <textarea name="user_text" placeholder="Enter your text here..."></textarea>
             <button type="submit">Analyze</button>
         </form>
-        {% if sentiment %}
-            <p>Positive: {{ sentiment['pos'] * 100 }} % </p>
-            <p>Neutral: {{ sentiment['neu'] * 100 }} % </p>
-            <p>Negative: {{ sentiment['neg'] * 100 }} % </p>
-            <p>Compound: {{ sentiment['compound'] * 100 }} % </p>
-            <p>Custom: {{ sentiment['custom model positive'] * 100 }} % </p>
-        {% endif %}    
+#        {% if sentiment %}
+#            <p>Positive: {{ sentiment['pos'] * 100 }} % </p>
+#            <p>Neutral: {{ sentiment['neu'] * 100 }} % </p>
+#            <p>Negative: {{ sentiment['neg'] * 100 }} % </p>
+#            <p>Compound: {{ sentiment['compound'] * 100 }} % </p>
+#            <p>Custom: {{ sentiment['custom model positive'] * 100 }} % </p>
+#        {% endif %}    
     </div>
 </body>
 </html>
