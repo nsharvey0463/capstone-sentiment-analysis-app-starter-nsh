@@ -44,7 +44,7 @@ def index():
         sentiment = vader_sentiment
         sentiment["custom model positive"] = sentiment_analysis(text)
     
-    return render_template("form.html", sentimet=sentimet)
+    return render_template("form.html", sentimet=sentiment)
 
 if __name__ == "__main__":
     app.run(debug=True)
