@@ -24,6 +24,10 @@ def load_tokenizer():
 #    load_tokenizer()
 #    load_keras_model()
 
+@app.before_first_request
+def before_first_request():
+    load_tokenizer()
+    load_keras_model()
 def sentiment_analysis(input):
     user_sequences = tokenizer.texts_to_sequences([input])
     user_sequences_matrix = sequence.pad_sequences(user_sequences, maxlen=1225)
@@ -36,12 +40,12 @@ def index():
     text = ""
     
     if request.method == "POST":
-        load_tokenizer()
-        load_keras_model()
+#        load_tokenizer()
+#        load_keras_model()
         text = request.form["user_text"]
         sentiment = analyzer.polarity_scores(text)
         sentiment['custom model positive'] = sentiment_analysis(text)
-        print("sentiment is: " sentiment)
+        print("sentiment is: ", sentiment)
         
     return render_template("form.html", sentiment=sentiment)
 
