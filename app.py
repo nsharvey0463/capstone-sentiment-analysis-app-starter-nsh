@@ -6,6 +6,9 @@ from tensorflow.keras.initializers import Orthogonal
 from flask import Flask, render_template, request
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
+import h5py
+with h5py.File('model.h5', 'r') as f:
+    print(list(f.keys()))
 app = Flask(__name__)
 
 analyzer = SentimentIntensityAnalyzer()
