@@ -4,6 +4,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import sequence
 from flask import Flask, render_template, request
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from keras.initializers import Orthogonal
 
 app = Flask(__name__)
 
@@ -13,7 +14,7 @@ tokenizer = None
 
 def load_keras_model():
     global model
-    model = load_model('models/uci_sentimentanalysis.h5')
+    model = keras.models.load_model('model.h5', custom_objects={'Orthogonal': Orthogonal})
 
 def load_tokenizer():
     global tokenizer
