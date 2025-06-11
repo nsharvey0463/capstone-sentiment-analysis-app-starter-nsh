@@ -2,9 +2,9 @@ import pickle
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import sequence
+from tensorflow.keras.initializers import Orthogonal
 from flask import Flask, render_template, request
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-from keras.initializers import Orthogonal
 
 app = Flask(__name__)
 
