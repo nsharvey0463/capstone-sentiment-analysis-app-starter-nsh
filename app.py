@@ -17,7 +17,7 @@ tokenizer = None
 
 def load_keras_model():
     global model
-    model = keras.models.load_model('model.h5', custom_objects={'Orthogonal': Orthogonal})
+    model = keras.models.load_model('models/uci_sentimentanalysis.h5', custom_objects={'Orthogonal': Orthogonal})
 
 def load_tokenizer():
     global tokenizer
