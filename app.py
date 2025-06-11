@@ -42,7 +42,7 @@ def index():
         sentiment['custom model positive'] = sentiment_analysis(text)
         print("sentiment is: ", sentiment)
         
-    return render_template("form.html", results=sentiment)
+    return render_template("form.html", sentiment=sentiment)
 
 if __name__ == "__main__":
  app.run()
