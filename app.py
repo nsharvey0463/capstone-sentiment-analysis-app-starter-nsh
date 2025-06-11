@@ -21,10 +21,15 @@ def load_tokenizer():
         tokenizer = pickle.load(handle)
 
 # Load the model and tokenizer before the first request using app.before_first_request
-with app.app_context():
-    load_tokenizer()
-    load_keras_model()
+#with app.app_context():
+#    load_tokenizer()
+#    load_keras_model()
 
+@app.before_first_request
+def before_first_request():
+    load_keras_model()
+    load_tokenizer()
+    
 def sentiment_analysis(input):
     user_sequences = tokenizer.texts_to_sequences([input])
     user_sequences_matrix = sequence.pad_sequences(user_sequences, maxlen=1225)
