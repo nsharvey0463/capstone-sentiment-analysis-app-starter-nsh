@@ -1,12 +1,67 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Sentiment Analysis</title>
-    </head>
-    <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical; 
+            min-height: 200px; /* Make the box bigger */
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sentiment Analysis</h1>
         <form method="POST">
-            <textarea name="user_text" rows="5"></textarea>
-            <input type="submit" value="Analyze Text">
+            <textarea name="user_text" placeholder="Enter your text here..."></textarea>
+            <button type="submit">Analyze</button>
         </form>
-    </body>
+        {% if sentiment %}
+            <p>Positive: {{ sentiment['pos'] * 100 }} % </p>
+            <p>Neutral: {{ sentiment['neu'] * 100 }} % </p>
+            <p>Negative: {{ sentiment['neg'] * 100 }} % </p>
+            <p>Compound: {{ sentiment['compound'] * 100 }} % </p>
+            <p>Custom: {{ sentiment['custom model positive'] * 100 }} % </p>
+        {% endif %}    
+    </div>
+</body>
 </html>
